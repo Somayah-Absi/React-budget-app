@@ -2,7 +2,7 @@ import React from "react";
 
 export const Transfer=()=>{
 return(
-<div> 
+<div className="transfer-container"> 
  <form>
       <div>
         <p>current balance: 0</p>
