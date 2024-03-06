@@ -1,9 +1,9 @@
 import React from "react";
 
-import { Income } from "./component/income";
-import { Expense } from "./component/expense";
-import { SetTarget } from "./component/target";
-import { Transfer } from "./component/transfer";
+import { Income } from "./component/Incomes";
+import { Expense } from "./component/Expenses";
+import { SetTarget } from "./component/Targets";
+import { Transfer } from "./component/Transfers";
 import "./App.css";
 
 
