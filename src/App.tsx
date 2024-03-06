@@ -1,14 +1,17 @@
 import React from "react";
 
-import { Incomes } from "./component/Income";
-import { Expense } from "./component/Expense";
-import { SetTarget } from "./component/Target";
-import { Transfer } from "./component/Transfer";
+import { Income } from "./component/income";
+import { Expense } from "./component/expense";
+import { SetTarget } from "./component/target";
+import { Transfer } from "./component/transfer";
 import "./App.css";
+
+
+
 function App() {
   return (
     <div className="container">
-      <Incomes />
+    <Income/>
       <Expense />
       <SetTarget />
       <Transfer />
