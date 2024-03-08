@@ -1,32 +1,23 @@
-
 import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { v4 as uuid4 } from "uuid";
-type expenseType={
-id?:string;
-source:string;
-amount:number;
-date:string;
-
-}
+type expenseType = {
+  id?: string;
+  source: string;
+  amount: number;
+  date: string;
+};
 type getExpenseType = {
   onGetExpense: (expense: number) => void;
 };
 
-export const Expense= (props:getExpenseType)=>{
+export const Expense = (props: getExpenseType) => {
+  const [expense, setExpense] = useState({
+    source: "",
+    amount: 0,
+    date: "",
+  });
 
-
-const[expense,setExpense]=useState({
-source:"",
-amount:0,
-date:"",
-
-
-
-})
-
-
-  
-  const [expenses,setExpenses]=useState<expenseType[]>([]);
+  const [expenses, setExpenses] = useState<expenseType[]>([]);
   const totalExpenses = expenses.reduce(
     (total, expense) => total + expense.amount,
     0
@@ -36,12 +27,9 @@ date:"",
     const deleteExpense = expenses.filter((expense) => expense.id !== id);
     setExpenses(deleteExpense);
   };
-  useEffect(()=>{
-
- props.onGetExpense(totalExpenses);
-
-  },[expenses,props,totalExpenses])
- 
+  useEffect(() => {
+    props.onGetExpense(totalExpenses);
+  }, [expenses, props, totalExpenses]);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -51,63 +39,82 @@ date:"",
       [name]: name === "amount" ? +value : value,
     }));
   };
- 
+
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    const{source,amount,date}=expense;
+    const { source, amount, date } = expense;
 
-    if(source&&amount&&date){ 
+    if (source && amount && date) {
       const newExpense = {
-      id:uuid4(),
-    ...expense
-    };
-   setExpenses((prevExpense)=>{
-return [...prevExpense,newExpense]
-
-   })
-  setExpense({
-    source: "",
-    amount: 0,
-    date: "",
-  });  
-  }else{
+        id: uuid4(),
+        ...expense,
+      };
+      setExpenses((prevExpense) => {
+        return [...prevExpense, newExpense];
+      });
+      setExpense({
+        source: "",
+        amount: 0,
+        date: "",
+      });
+    } else {
       console.log("nothing");
     }
-   
   };
-return (
-  <div>
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="source">Expense source</label>
-        <input type="text"name="source" placeholder="Electricity bill"onChange={handleChange} value={expense.source} id="source" required />
-      </div>
-      <div>
-        <label htmlFor="amount">Amount of Expense </label>
-        <input type="number"name="amount" onChange={handleChange}value={expense.amount} id="amount" required />
-      </div>
+  return (
+    <div>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="source">Expense source</label>
+          <input
+            type="text"
+            name="source"
+            placeholder="Electricity bill"
+            onChange={handleChange}
+            value={expense.source}
+            id="source"
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="amount">Amount of Expense </label>
+          <input
+            type="number"
+            name="amount"
+            onChange={handleChange}
+            value={expense.amount}
+            id="amount"
+            required
+          />
+        </div>
 
-      <div>
-        <label htmlFor="date"> Date of Expense</label>
-        <input type="date" onChange={handleChange}name="date" value={expense.date} id="date" />
-      </div>
-      <button>add Expense</button>
-    </form>
-    <ul>
-      {expenses.length>0?
-      expenses.map((expense)=>{
-        return (
-          <li key={expense.id}>
-            {" "}
-            {expense.source} :{expense.amount}EUR on {expense.date}
-            <button onClick={() => handleDelete(expense.id)}>delete</button>
-          </li>
-        );
-      }):<p>nothing here</p>}
-    </ul>
-  </div>
-);
-
-
-
-}
+        <div>
+          <label htmlFor="date"> Date of Expense</label>
+          <input
+            type="date"
+            onChange={handleChange}
+            name="date"
+            value={expense.date}
+            id="date"
+          />
+        </div>
+        <button>add Expense</button>
+      </form>
+      <ul>
+        {expenses.length > 0 ? (
+          expenses.map((expense) => {
+            return (
+              <li key={expense.id}>
+                {" "}
+                {expense.source} :{expense.amount}EUR on {expense.date}
+                <button onClick={() => handleDelete(expense.id)}>delete</button>
+              </li>
+            );
+          })
+        ) : (
+          <p>nothing here</p>
+        )}
+      </ul>
+    </div>
+  );
+};

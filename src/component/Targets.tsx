@@ -38,10 +38,10 @@ export const SetTarget = (props: targetType) => {
       {/* will be in variable */}
       <p>current saving: {props.getAmount}</p>
       <p>Target:{target}</p>
-     
+
       <p>
-        progress : {percentage.toFixed(2)}%{" "}
-        <progress max={3000} value={percentage} />
+        progress : {percentage}%
+        <progress max={target} value={percentage} />
       </p>
     </div>
   );

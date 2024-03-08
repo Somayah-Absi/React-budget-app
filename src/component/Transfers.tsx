@@ -6,7 +6,6 @@ type message = {
   getExpense: number;
 };
 
-
 export const Transfer = (props: message) => {
   const [transfers, setTransfer] = useState(0);
 
@@ -18,12 +17,10 @@ export const Transfer = (props: message) => {
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
     props.onGetTransfer(transfers);
- 
   };
-  const balance=()=>{
-  return props.getIncomeAmount-props.getExpense-transfers
-  
-  }
+  const balance = () => {
+    return props.getIncomeAmount - props.getExpense - transfers;
+  };
 
   return (
     <div className="transfer-container">

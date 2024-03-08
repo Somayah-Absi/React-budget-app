@@ -17,19 +17,14 @@ export function Income(props: onGetIncomeType) {
   });
 
   const [incomes, setIncomes] = useState<IncomeType[]>([]);
-const totalIncomes = incomes.reduce(
+  const totalIncomes = incomes.reduce(
     (total, income) => total + income.amount,
     0
   );
 
-  useEffect(()=>{
-
-
-  props.onGetIncome(totalIncomes);
-  },[incomes,totalIncomes,props]);
-  
-
-
+  useEffect(() => {
+    props.onGetIncome(totalIncomes);
+  }, [incomes, totalIncomes, props]);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -40,26 +35,22 @@ const totalIncomes = incomes.reduce(
     }));
   };
 
-const handleDelete=(id:string| undefined)=>{
-const deleteIncome= incomes.filter((income)=>income.id!==id)
-setIncomes(deleteIncome)
-
-}
-
+  const handleDelete = (id: string | undefined) => {
+    const deleteIncome = incomes.filter((income) => income.id !== id);
+    setIncomes(deleteIncome);
+  };
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-     const { source, amount, date } = income;
+    const { source, amount, date } = income;
     if (source && amount && date) {
       const newIncome = {
         id: uuid4(),
         ...income,
       };
-setIncomes((prevIncome) => {
-  return [...prevIncome, newIncome ];
-});
-
-
+      setIncomes((prevIncome) => {
+        return [...prevIncome, newIncome];
+      });
 
       setIncome({ source: "", amount: 0, date: "" });
     } else {
@@ -86,10 +77,9 @@ setIncomes((prevIncome) => {
           <label htmlFor="amount">Amount of Income </label>
           <input
             type="number"
-           
             id="amount"
             name="amount"
-             onChange={handleChange}
+            onChange={handleChange}
             value={income.amount}
             required
           />
@@ -108,18 +98,19 @@ setIncomes((prevIncome) => {
         <button>add Income</button>
       </form>
       <ul>
-       {incomes.length>0?
-      incomes.map((income)=>{
-        return (
-          <li key={income.id}>
-            {" "}
-            {income.source} :{income.amount}EUR on {income.date} 
-            <button onClick={()=>handleDelete(income.id)}>delete</button>
-          </li>
-        
-        ); 
-      }):<p>nothing here</p>}
-       
+        {incomes.length > 0 ? (
+          incomes.map((income) => {
+            return (
+              <li key={income.id}>
+                {" "}
+                {income.source} :{income.amount}EUR on {income.date}
+                <button onClick={() => handleDelete(income.id)}>delete</button>
+              </li>
+            );
+          })
+        ) : (
+          <p>nothing here</p>
+        )}
       </ul>
     </div>
   );

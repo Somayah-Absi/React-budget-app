@@ -1,6 +1,68 @@
-.container{
+.container {
   margin: 20vh;
-display: grid;
-grid-template-columns: auto auto auto;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  gap: 1.5vh;
+}
+.income-style:hover {
+  background-color: #7077a1;
+}
+body {
+  padding: 0;
+  margin: 0;
+  background-color: #424769;
+}
+.income-style {
+  background-color: #b3b9da;
+  border: groove white;
+  padding: 5vh;
+}
+.expense-style {
+  background-color: #b3b9da;
+  border: groove white;
+  padding: 5vh;
+}
+.expense-style:hover {
+  background-color: #7077a1;
+}
+.target-style {
+  background-color: #b3b9da;
+  border: groove white;
+  padding: 5vh;
+}
+.target-style:hover {
+  background-color: #7077a1;
+}
+.transfer-style {
+  background-color: #b3b9da;
+  border: groove white;
+  padding: 5vh;
+}
+.transfer-style:hover {
+  background-color: #7077a1;
+}
+button {
+  background-image: linear-gradient(
+    to right,
+    #e6dada 0%,
+    #575c79 51%,
+    #e6dada 100%
+  );
+  margin-top: 2vh;
+  margin-left: 15vh;
+  padding: 1vh 2vh;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  box-shadow: 0 0 20px #eee;
+  border-radius: 10px;
+  display: block;
+}
 
+button:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
 }
