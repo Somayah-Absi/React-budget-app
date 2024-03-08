@@ -1,32 +1,66 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
+import { v4 as uuid4 } from "uuid";
+type IncomeType = {
+  id?: string;
+  source: string;
+  amount: number;
+  date: string;
+};
+type onGetIncomeType = {
+  onGetIncome: (income: number) => void;
+};
+export function Income(props: onGetIncomeType) {
+  const [income, setIncome] = useState({
+    source: "",
+    amount: 0,
+    date: "",
+  });
 
-export function Income() {
-  const [source, setSource] = useState("");
-  const [amount, setAmount] = useState(0);
-  const [date, setDate] = useState("");
-  const handleSourceChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    setSource(value);
-  };
-  const handleAmountChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    setAmount(Number(value));
-  };
-  const handleDateChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    setDate(value);
-  };
-const handleSubmit=(event:FormEvent)=>{
-event.preventDefault();
-const newIncome={
-source:source,
-amount:amount,
-date:date
+  const [incomes, setIncomes] = useState<IncomeType[]>([]);
+  const totalIncomes = incomes.reduce(
+    (total, income) => total + income.amount,
+    0
+  );
 
+  props.onGetIncome(totalIncomes);
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    setIncome((prevIncome) => {
+      return {
+        ...prevIncome,
+        [name]: name === "amount" ? parseFloat(value) : value,
+      } as IncomeType;
+    });
+  };
+
+const handleDelete=(id:string| undefined)=>{
+const deleteIncome= incomes.filter((income)=>income.id!==id)
+setIncomes(deleteIncome)
 
 }
-console.log(newIncome);
-}
+
+
+  const handleSubmit = (event: FormEvent) => {
+    event.preventDefault();
+     const { source, amount, date } = income;
+    if (source && amount && date) {
+      const newIncome = {
+        id: uuid4(),
+        ...income,
+      };
+setIncomes((prevIncome) => {
+  return [...prevIncome, newIncome ];
+});
+
+
+
+      setIncome({ source: "", amount: 0, date: "" });
+    } else {
+      console.log("nothing");
+    }
+  };
 
   return (
     <div className="income-container">
@@ -35,23 +69,53 @@ console.log(newIncome);
           <label htmlFor="source">Income source</label>
           <input
             type="text"
-            onChange={handleSourceChange}
+            onChange={handleChange}
             placeholder="salary"
+            value={income.source}
             id="source"
+            name="source"
             required
           />
         </div>
         <div>
           <label htmlFor="amount">Amount of Income </label>
-          <input type="number"onChange={handleAmountChange} id="amount" required />
+          <input
+            type="number"
+           
+            id="amount"
+            name="amount"
+             onChange={handleChange}
+            value={income.amount}
+            required
+          />
         </div>
 
         <div>
           <label htmlFor="date"> Date of Income </label>
-          <input type="date" id="date" />
+          <input
+            type="date"
+            name="date"
+            onChange={handleChange}
+            value={income.date}
+            id="date"
+          />
         </div>
         <button>add Income</button>
       </form>
+      <ul>
+       {incomes.length>0?
+      incomes.map((income)=>{
+        return (
+          <li key={income.id}>
+            {" "}
+            {income.source} :{income.amount}EUR on {income.date} 
+            <button onClick={()=>handleDelete(income.id)}>delete</button>
+          </li>
+        
+        ); 
+      }):<p>nothing here</p>}
+       
+      </ul>
     </div>
   );
 }

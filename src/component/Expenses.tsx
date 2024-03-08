@@ -1,49 +1,101 @@
+
 import React, { ChangeEvent, FormEvent, useState } from "react";
+import { v4 as uuid4 } from "uuid";
+type expenseType={
+id?:string;
+source:string;
+amount:number;
+date:string;
 
-export const Expense= ()=>{
+}
+type getExpenseType = {
+  onGetExpense: (expense: number) => void;
+};
 
-  const [source, setSource] = useState("");
-  const [amount, setAmount] = useState(0);
-  const [date, setDate] = useState("");
-  const handleSourceChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    setSource(value);
+export const Expense= (props:getExpenseType)=>{
+
+
+const[expense,setExpense]=useState({
+source:"",
+amount:0,
+date:""
+
+
+
+})
+
+
+  
+  const [expenses,setExpenses]=useState<expenseType[]>([]);
+  const totalExpenses = expenses.reduce(
+    (total, expense) => total + expense.amount,
+    0
+  );
+  props.onGetExpense(totalExpenses);
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    setExpense((prevExpense) => {
+      return {
+        ...prevExpense,
+        [name]: name === "amount" ? parseFloat(value) : value,
+      } as expenseType; 
+    });
   };
-  const handleAmountChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    setAmount(Number(value));
-  };
-  const handleDateChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    setDate(value);
-  };
+ 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    const newIncome = {
-      source: source,
-      amount: amount,
-      date: date,
+    const{source,amount,date}=expense;
+
+    if(source&&amount&&date){ 
+      const newExpense = {
+      id:uuid4(),
+    ...expense
     };
-    console.log(newIncome);
+   setExpenses((prevExpense)=>{
+return [...prevExpense,newExpense]
+
+   })
+  setExpense({
+    source: "",
+    amount: 0,
+    date: "",
+  });  
+  }else{
+      console.log("nothing");
+    }
+   
   };
 return (
   <div>
     <form onSubmit={handleSubmit}>
       <div>
         <label htmlFor="source">Expense source</label>
-        <input type="text" placeholder="Electricity bill"onChange={handleSourceChange} id="source" required />
+        <input type="text"name="source" placeholder="Electricity bill"onChange={handleChange} value={expense.source} id="source" required />
       </div>
       <div>
         <label htmlFor="amount">Amount of Expense </label>
-        <input type="number"onChange={handleAmountChange} id="amount" required />
+        <input type="number"name="amount" onChange={handleChange}value={expense.amount} id="amount" required />
       </div>
 
       <div>
         <label htmlFor="date"> Date of Expense</label>
-        <input type="date" onChange={handleDateChange} id="date" />
+        <input type="date" onChange={handleChange}name="date" value={expense.date} id="date" />
       </div>
       <button>add Expense</button>
     </form>
+    <ul>
+      {expenses.length>0?
+      expenses.map((expense)=>{
+        return (
+          <li key={expense.id}>
+            {" "}
+            {expense.source} :{expense.amount}EUR on {expense.date}
+          </li>
+        );
+      }):<p>nothing here</p>}
+    </ul>
   </div>
 );
 

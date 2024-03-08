@@ -1,21 +1,46 @@
-import React from "react";
+import React, { ChangeEvent, FormEvent, useState } from "react";
 
-export const Transfer=()=>{
-return(
-<div className="transfer-container"> 
- <form>
-      <div>
-        <p>current balance: 0</p>
-        <label htmlFor="transfer">Transfer to saving account</label>
-        <input type="number" id="transfer" required />
-      </div>
-      <button>Transfer</button>
-    </form>
-    
-  </div>
-
-);
+type message = {
+  onGetTransfer: (amount: number) => void;
+  getIncomeAmount: number;
+  getExpense: number;
+};
 
 
+export const Transfer = (props: message) => {
+  const [transfers, setTransfer] = useState(0);
 
-}
+  const handleTransfer = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setTransfer(Number(value));
+  };
+
+  const handleSubmit = (event: FormEvent) => {
+    event.preventDefault();
+    props.onGetTransfer(transfers);
+ 
+  };
+  const balance=()=>{
+  return props.getIncomeAmount-props.getExpense-transfers
+  
+  }
+
+  return (
+    <div className="transfer-container">
+      <form onSubmit={handleSubmit}>
+        <div>
+          <p>current balance: {balance()}</p>
+          <label htmlFor="transfer">Transfer to saving account</label>
+          <input
+            type="number"
+            onChange={handleTransfer}
+            value={transfers}
+            id="transfer"
+            required
+          />
+        </div>
+        <button>Transfer</button>
+      </form>
+    </div>
+  );
+};
