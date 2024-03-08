@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { v4 as uuid4 } from "uuid";
 type IncomeType = {
   id?: string;
@@ -17,22 +17,27 @@ export function Income(props: onGetIncomeType) {
   });
 
   const [incomes, setIncomes] = useState<IncomeType[]>([]);
-  const totalIncomes = incomes.reduce(
+const totalIncomes = incomes.reduce(
     (total, income) => total + income.amount,
     0
   );
 
+  useEffect(()=>{
+
+
   props.onGetIncome(totalIncomes);
+  },[incomes,totalIncomes,props]);
+  
+
+
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
-    setIncome((prevIncome) => {
-      return {
-        ...prevIncome,
-        [name]: name === "amount" ? parseFloat(value) : value,
-      } as IncomeType;
-    });
+    setIncome((prevIncome) => ({
+      ...prevIncome,
+      [name]: name === "amount" ? +value : value,
+    }));
   };
 
 const handleDelete=(id:string| undefined)=>{

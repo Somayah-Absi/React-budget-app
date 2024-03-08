@@ -1,5 +1,5 @@
 
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { v4 as uuid4 } from "uuid";
 type expenseType={
 id?:string;
@@ -18,7 +18,7 @@ export const Expense= (props:getExpenseType)=>{
 const[expense,setExpense]=useState({
 source:"",
 amount:0,
-date:""
+date:"",
 
 
 
@@ -31,17 +31,25 @@ date:""
     (total, expense) => total + expense.amount,
     0
   );
-  props.onGetExpense(totalExpenses);
+
+  const handleDelete = (id: string | undefined) => {
+    const deleteExpense = expenses.filter((expense) => expense.id !== id);
+    setExpenses(deleteExpense);
+  };
+  useEffect(()=>{
+
+ props.onGetExpense(totalExpenses);
+
+  },[expenses,props,totalExpenses])
+ 
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
-    setExpense((prevExpense) => {
-      return {
-        ...prevExpense,
-        [name]: name === "amount" ? parseFloat(value) : value,
-      } as expenseType; 
-    });
+    setExpense((prevExpense) => ({
+      ...prevExpense,
+      [name]: name === "amount" ? +value : value,
+    }));
   };
  
   const handleSubmit = (event: FormEvent) => {
@@ -92,6 +100,7 @@ return (
           <li key={expense.id}>
             {" "}
             {expense.source} :{expense.amount}EUR on {expense.date}
+            <button onClick={() => handleDelete(expense.id)}>delete</button>
           </li>
         );
       }):<p>nothing here</p>}
