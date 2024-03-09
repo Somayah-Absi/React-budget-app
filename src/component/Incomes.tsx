@@ -1,5 +1,8 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
+
 import { v4 as uuid4 } from "uuid";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 type IncomeType = {
   id?: string;
   source: string;
@@ -9,12 +12,16 @@ type IncomeType = {
 type onGetIncomeType = {
   onGetIncome: (income: number) => void;
 };
+
+
 export function Income(props: onGetIncomeType) {
   const [income, setIncome] = useState({
     source: "",
     amount: 0,
     date: "",
   });
+
+  const notify = () => toast("income added successfully!");
 
   const [incomes, setIncomes] = useState<IncomeType[]>([]);
   const totalIncomes = incomes.reduce(
@@ -43,8 +50,10 @@ export function Income(props: onGetIncomeType) {
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
     const { source, amount, date } = income;
+    
     if (source && amount && date) {
-      const newIncome = {
+      if(amount>0){
+        const newIncome = {
         id: uuid4(),
         ...income,
       };
@@ -53,8 +62,14 @@ export function Income(props: onGetIncomeType) {
       });
 
       setIncome({ source: "", amount: 0, date: "" });
+      notify()
+      }else{
+
+         toast.error("Insufficient balance!"); 
+      }
+      
     } else {
-      console.log("nothing");
+      toast.error("please enter your income");
     }
   };
 
@@ -117,6 +132,7 @@ export function Income(props: onGetIncomeType) {
           <p>nothing here</p>
         )}
       </ul>
+      <ToastContainer />
     </div>
   );
 }

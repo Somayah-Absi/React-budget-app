@@ -1,8 +1,15 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSackDollar } from "@fortawesome/free-solid-svg-icons";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+  
 type targetType = {
   getAmount: number;
 };
 export const SetTarget = (props: targetType) => {
+  
   const [totalAmount, setTotalAmount] = useState(props.getAmount);
   const [targets, setTargets] = useState(0);
   const [target, setTarget] = useState(0);
@@ -17,11 +24,11 @@ export const SetTarget = (props: targetType) => {
   const handleForm = (event: FormEvent) => {
     event.preventDefault();
 
-    if (targets) {
+    if (targets>0) {
       setTarget(targets);
-      setTotalAmount((prevTotal) => prevTotal + targets);
+      setTotalAmount((prevTotal) => prevTotal + totalAmount);
     } else {
-      console.log("no target");
+     toast.error("enter a positive target");
     }
   };
   const percentage = target !== 0 ? (totalAmount / target) * 100 : 0;
@@ -30,7 +37,11 @@ export const SetTarget = (props: targetType) => {
     <div>
       <form onSubmit={handleForm}>
         <div>
-          <label htmlFor="target">Set Target</label>
+          <FontAwesomeIcon
+            icon={faSackDollar}
+            style={{ color: "#FFD43B", fontSize: "24px" }}
+          />
+          <label htmlFor="target"> Set Target</label>
           <input type="number" onChange={handleTarget} id="target" required />
         </div>
         <button>Reset</button>
@@ -43,6 +54,7 @@ export const SetTarget = (props: targetType) => {
         progress : {percentage}%
         <progress max={target} value={totalAmount} />
       </p>
+      <ToastContainer />
     </div>
   );
 };

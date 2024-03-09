@@ -1,5 +1,8 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
+
 import { v4 as uuid4 } from "uuid";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 type expenseType = {
   id?: string;
   source: string;
@@ -16,6 +19,7 @@ export const Expense = (props: getExpenseType) => {
     amount: 0,
     date: "",
   });
+const notify = () => toast("income added successfully!");
 
   const [expenses, setExpenses] = useState<expenseType[]>([]);
   const totalExpenses = expenses.reduce(
@@ -45,7 +49,8 @@ export const Expense = (props: getExpenseType) => {
     const { source, amount, date } = expense;
 
     if (source && amount && date) {
-      const newExpense = {
+      if(amount>0){ 
+        const newExpense = {
         id: uuid4(),
         ...expense,
       };
@@ -57,8 +62,14 @@ export const Expense = (props: getExpenseType) => {
         amount: 0,
         date: "",
       });
-    } else {
-      console.log("nothing");
+      notify();
+    }else{
+      toast.error("Insufficient balance!");
+    }
+  
+  }
+      else {
+    toast.error("please enter your expense");
     }
   };
   return (
@@ -107,7 +118,12 @@ export const Expense = (props: getExpenseType) => {
               <li key={expense.id}>
                 {" "}
                 {expense.source} :{expense.amount}EUR on {expense.date}
-                <button className="delete-button" onClick={() => handleDelete(expense.id)}>delete</button>
+                <button
+                  className="delete-button"
+                  onClick={() => handleDelete(expense.id)}
+                >
+                  delete
+                </button>
               </li>
             );
           })
@@ -115,6 +131,7 @@ export const Expense = (props: getExpenseType) => {
           <p>nothing here</p>
         )}
       </ul>
+      <ToastContainer />
     </div>
   );
 };
