@@ -61,7 +61,7 @@ export function Income(props: onGetIncomeType) {
   return (
     <div className="income-container">
       <form onSubmit={handleSubmit}>
-        <div>
+        <div className="source">
           <label htmlFor="source">Income source</label>
           <input
             type="text"
@@ -73,7 +73,7 @@ export function Income(props: onGetIncomeType) {
             required
           />
         </div>
-        <div>
+        <div className="amount">
           <label htmlFor="amount">Amount of Income </label>
           <input
             type="number"
@@ -85,7 +85,7 @@ export function Income(props: onGetIncomeType) {
           />
         </div>
 
-        <div>
+        <div className="date">
           <label htmlFor="date"> Date of Income </label>
           <input
             type="date"
@@ -104,7 +104,12 @@ export function Income(props: onGetIncomeType) {
               <li key={income.id}>
                 {" "}
                 {income.source} :{income.amount}EUR on {income.date}
-                <button onClick={() => handleDelete(income.id)}>delete</button>
+                <button
+                  className="delete-button"
+                  onClick={() => handleDelete(income.id)}
+                >
+                  delete
+                </button>
               </li>
             );
           })

@@ -56,7 +56,7 @@ button {
   transition: 0.5s;
   background-size: 200% auto;
   color: white;
-  box-shadow: 0 0 20px #eee;
+
   border-radius: 10px;
   display: block;
 }
@@ -65,4 +65,26 @@ button:hover {
   background-position: right center; /* change the direction of the change here */
   color: #fff;
   text-decoration: none;
+}
+li {
+  background-color: #f3c29ab9;
+  margin-top: 6vh;
+  border: solid white;
+  border-radius: 2vh;
+  padding: 2vh 1vh;
+  box-shadow: 0 0 20px #eee;
+}
+.delete-button {
+  padding: 1vh 1vh;
+}
+.source{
+display: grid;
+
+
+}
+.amount{
+  display: grid;
+}
+.date{
+  display: grid;
 }

@@ -64,7 +64,7 @@ export const Expense = (props: getExpenseType) => {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <div>
+        <div className="source">
           <label htmlFor="source">Expense source</label>
           <input
             type="text"
@@ -76,7 +76,7 @@ export const Expense = (props: getExpenseType) => {
             required
           />
         </div>
-        <div>
+        <div className="amount">
           <label htmlFor="amount">Amount of Expense </label>
           <input
             type="number"
@@ -88,7 +88,7 @@ export const Expense = (props: getExpenseType) => {
           />
         </div>
 
-        <div>
+        <div className="date">
           <label htmlFor="date"> Date of Expense</label>
           <input
             type="date"
@@ -107,7 +107,7 @@ export const Expense = (props: getExpenseType) => {
               <li key={expense.id}>
                 {" "}
                 {expense.source} :{expense.amount}EUR on {expense.date}
-                <button onClick={() => handleDelete(expense.id)}>delete</button>
+                <button className="delete-button" onClick={() => handleDelete(expense.id)}>delete</button>
               </li>
             );
           })
