@@ -13,7 +13,6 @@ type onGetIncomeType = {
   onGetIncome: (income: number) => void;
 };
 
-
 export function Income(props: onGetIncomeType) {
   const [income, setIncome] = useState({
     source: "",
@@ -50,24 +49,22 @@ export function Income(props: onGetIncomeType) {
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
     const { source, amount, date } = income;
-    
+
     if (source && amount && date) {
-      if(amount>0){
+      if (amount > 0) {
         const newIncome = {
-        id: uuid4(),
-        ...income,
-      };
-      setIncomes((prevIncome) => {
-        return [...prevIncome, newIncome];
-      });
+          id: uuid4(),
+          ...income,
+        };
+        setIncomes((prevIncome) => {
+          return [...prevIncome, newIncome];
+        });
 
-      setIncome({ source: "", amount: 0, date: "" });
-      notify()
-      }else{
-
-         toast.error("Insufficient balance!"); 
+        setIncome({ source: "", amount: 0, date: "" });
+        notify();
+      } else {
+        toast.error("Insufficient balance!");
       }
-      
     } else {
       toast.error("please enter your income");
     }
@@ -76,23 +73,23 @@ export function Income(props: onGetIncomeType) {
   return (
     <div className="income-container">
       <form onSubmit={handleSubmit}>
-        <div className="source">
+        <div className="income-source">
           <label htmlFor="source">Income source</label>
           <input
             type="text"
             onChange={handleChange}
             placeholder="salary"
             value={income.source}
-            id="source"
+            id="income-source"
             name="source"
             required
           />
         </div>
-        <div className="amount">
+        <div className="income-amount">
           <label htmlFor="amount">Amount of Income </label>
           <input
             type="number"
-            id="amount"
+            id="income-amount"
             name="amount"
             onChange={handleChange}
             value={income.amount}
@@ -100,14 +97,14 @@ export function Income(props: onGetIncomeType) {
           />
         </div>
 
-        <div className="date">
+        <div className="income-date">
           <label htmlFor="date"> Date of Income </label>
           <input
             type="date"
             name="date"
             onChange={handleChange}
             value={income.date}
-            id="date"
+            id="income-date"
           />
         </div>
         <button>add Income</button>

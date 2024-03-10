@@ -10,7 +10,7 @@ function App() {
   const [transferAmount, setTransferAmount] = useState(0);
   const [incomeAmount, setIncomeAmount] = useState(0);
   const [expenseAmount, setExpenseAmount] = useState(0);
-
+  const [totalSavings, setTotalSavings] = useState(0);
   const getIncome = (income: number) => {
     setIncomeAmount(income);
   };
@@ -19,8 +19,11 @@ function App() {
   };
 
   const getTransfer = (amount: number) => {
-    setTransferAmount(amount);
+    const newTransferAmount = transferAmount + amount;
+    setTransferAmount(newTransferAmount);
+    setTotalSavings(totalSavings + amount);
   };
+
   return (
     <article>
       <div className="container">

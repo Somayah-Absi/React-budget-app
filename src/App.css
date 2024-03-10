@@ -77,14 +77,12 @@ li {
 .delete-button {
   padding: 1vh 1vh;
 }
-.source{
-display: grid;
-
-
-}
-.amount{
+.source {
   display: grid;
 }
-.date{
+.amount {
+  display: grid;
+}
+.date {
   display: grid;
 }

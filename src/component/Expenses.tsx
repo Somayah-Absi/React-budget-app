@@ -19,7 +19,7 @@ export const Expense = (props: getExpenseType) => {
     amount: 0,
     date: "",
   });
-const notify = () => toast("income added successfully!");
+  const notify = () => toast("income added successfully!");
 
   const [expenses, setExpenses] = useState<expenseType[]>([]);
   const totalExpenses = expenses.reduce(
@@ -49,33 +49,31 @@ const notify = () => toast("income added successfully!");
     const { source, amount, date } = expense;
 
     if (source && amount && date) {
-      if(amount>0){ 
+      if (amount > 0) {
         const newExpense = {
-        id: uuid4(),
-        ...expense,
-      };
-      setExpenses((prevExpense) => {
-        return [...prevExpense, newExpense];
-      });
-      setExpense({
-        source: "",
-        amount: 0,
-        date: "",
-      });
-      notify();
-    }else{
-      toast.error("Insufficient balance!");
-    }
-  
-  }
-      else {
-    toast.error("please enter your expense");
+          id: uuid4(),
+          ...expense,
+        };
+        setExpenses((prevExpense) => {
+          return [...prevExpense, newExpense];
+        });
+        setExpense({
+          source: "",
+          amount: 0,
+          date: "",
+        });
+        notify();
+      } else {
+        toast.error("Insufficient balance!");
+      }
+    } else {
+      toast.error("please enter your expense");
     }
   };
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <div className="source">
+        <div className="expense-source">
           <label htmlFor="source">Expense source</label>
           <input
             type="text"
@@ -83,30 +81,30 @@ const notify = () => toast("income added successfully!");
             placeholder="Electricity bill"
             onChange={handleChange}
             value={expense.source}
-            id="source"
+            id="expense-source"
             required
           />
         </div>
-        <div className="amount">
+        <div className="expense-amount">
           <label htmlFor="amount">Amount of Expense </label>
           <input
             type="number"
             name="amount"
             onChange={handleChange}
             value={expense.amount}
-            id="amount"
+            id="expense-amount"
             required
           />
         </div>
 
-        <div className="date">
+        <div className="expense-date">
           <label htmlFor="date"> Date of Expense</label>
           <input
             type="date"
             onChange={handleChange}
             name="date"
             value={expense.date}
-            id="date"
+            id="expense-date"
           />
         </div>
         <button>add Expense</button>
