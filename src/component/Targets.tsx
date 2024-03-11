@@ -5,10 +5,10 @@ import { faSackDollar } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-type targetType = {
+type Target = {
   getAmount: number;
 };
-export const SetTarget = (props: targetType) => {
+export const SetTarget = (props: Target) => {
   const [totalAmount, setTotalAmount] = useState(props.getAmount);
   const [targets, setTargets] = useState(0);
   const [target, setTarget] = useState(0);
@@ -33,16 +33,16 @@ export const SetTarget = (props: targetType) => {
   const percentage = target !== 0 ? (totalAmount / target) * 100 : 0;
 
   return (
-    <div>
+    <>
       <form onSubmit={handleForm}>
-        <div>
+        <>
           <FontAwesomeIcon
             icon={faSackDollar}
             style={{ color: "#FFD43B", fontSize: "24px" }}
           />
           <label htmlFor="target"> Set Target</label>
           <input type="number" onChange={handleTarget} id="target" required />
-        </div>
+        </>
         <button>Reset</button>
       </form>
 
@@ -54,6 +54,6 @@ export const SetTarget = (props: targetType) => {
         <progress max={target} value={totalAmount} />
       </p>
       <ToastContainer />
-    </div>
+    </>
   );
 };

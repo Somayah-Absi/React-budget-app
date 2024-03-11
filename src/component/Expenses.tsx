@@ -3,7 +3,7 @@ import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { v4 as uuid4 } from "uuid";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-type expenseType = {
+type Expense = {
   id?: string;
   source: string;
   amount: number;
@@ -21,7 +21,7 @@ export const Expense = (props: getExpenseType) => {
   });
   const notify = () => toast("income added successfully!");
 
-  const [expenses, setExpenses] = useState<expenseType[]>([]);
+  const [expenses, setExpenses] = useState<Expense[]>([]);
   const totalExpenses = expenses.reduce(
     (total, expense) => total + expense.amount,
     0
@@ -71,7 +71,7 @@ export const Expense = (props: getExpenseType) => {
     }
   };
   return (
-    <div>
+    <>
       <form onSubmit={handleSubmit}>
         <div className="expense-source">
           <label htmlFor="source">Expense source</label>
@@ -130,6 +130,6 @@ export const Expense = (props: getExpenseType) => {
         )}
       </ul>
       <ToastContainer />
-    </div>
+    </>
   );
 };
