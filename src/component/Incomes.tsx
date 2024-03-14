@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { v4 as uuid4 } from "uuid";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -26,22 +26,18 @@ export function Income(props: OnGetIncomeType) {
   const notify = () => toast("Income added successfully!");
 
   useEffect(() => {
-    const totalIncome = incomes.reduce(
-      (total, income) => total + income.incomeAmount,
-      0
-    );
-    props.onGetIncome(totalIncome);
+    props.onGetIncome(calculateTotalIncome());
   }, [incomes, props]);
+  const calculateTotalIncome = useCallback(() => {
+    return incomes.reduce((total, income) => total + income.incomeAmount, 0);
+  }, [incomes]);
 
   const submitData: SubmitHandler<Income> = (data) => {
-    // Create a new income object with the updated incomeAmount
     const updatedIncome: Income = { ...data, id: uuid4() };
 
-    // Add the updated income to the incomes array
     const newIncomes = [...incomes, updatedIncome];
     setIncomes(newIncomes);
 
-    // Update total income by summing income amounts from newIncomes
     const totalIncome = newIncomes.reduce(
       (total, income) => total + income.incomeAmount,
       0
@@ -49,13 +45,16 @@ export function Income(props: OnGetIncomeType) {
     props.onGetIncome(totalIncome);
 
     notify();
-    reset(); // Reset form fields after submission
+    reset();
   };
 
-  const handleDelete = (id: string) => {
-    const filteredIncomes = incomes.filter((income) => income.id !== id);
-    setIncomes(filteredIncomes);
-  };
+  const handleDelete = useCallback(
+    (id: string) => {
+      const filteredIncomes = incomes.filter((income) => income.id !== id);
+      setIncomes(filteredIncomes);
+    },
+    [incomes]
+  );
 
   return (
     <>
@@ -98,7 +97,7 @@ export function Income(props: OnGetIncomeType) {
       <ul>
         {incomes.length > 0 ? (
           incomes.map((income) => (
-            <li key={income.id}>
+            <li className="list" key={income.id}>
               {income.incomeSource} : {income.incomeAmount} EUR on{" "}
               {income.incomeDate}
               <button

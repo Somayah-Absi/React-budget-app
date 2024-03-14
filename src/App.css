@@ -1,7 +1,7 @@
 .container {
   margin: 20vh;
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-template-columns: repeat(3, auto);
   gap: 1.5vh;
 }
 .income-style:hover {
@@ -10,7 +10,6 @@
 body {
   padding: 0;
   margin: 0;
-  background-color: #424769;
 }
 .income-style {
   background-color: #b3b9da;
@@ -66,13 +65,39 @@ button:hover {
   color: #fff;
   text-decoration: none;
 }
-li {
+.list {
   background-color: #f3c29ab9;
   margin-top: 6vh;
   border: solid white;
   border-radius: 2vh;
   padding: 2vh 1vh;
   box-shadow: 0 0 20px #eee;
+}
+nav {
+  display: flex;
+  justify-content: center;
+  padding: 2vh;
+
+  background: linear-gradient(90deg, #3ab5b0 0%, #3d99be 31%, #56317a 100%);
+}
+
+.nav-bar {
+  color: #f2ebeb;
+  list-style: none;
+  padding: 1vh 7vh;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 3vh;
+  text-transform: capitalize;
+  border-top: solid #feffff90;
+  border-radius: 2vh;
+  margin: 0 5vh;
+}
+.nav-bar:hover {
+  border-color: #b7c5f0;
+  color: #8769f3;
+  box-shadow: 4px 4px 4px 0px #b6bff7;
+  background-color: #fafeff;
 }
 .delete-button {
   padding: 1vh 1vh;
@@ -85,4 +110,26 @@ li {
 }
 .date {
   display: grid;
+}
+.home-image {
+  height: 70vh;
+
+  border-radius: 35vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+.home-container {
+  display: flex;
+  justify-content: center;
+
+  padding: 10vh;
+}
+.home-container h1 {
+  padding-top: 20vh;
+  text-transform: capitalize;
+}
+.home-container h1::first-letter {
+  font-size: 5vh;
 }

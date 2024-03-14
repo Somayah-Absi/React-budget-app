@@ -1,4 +1,10 @@
-import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import React, {
+  ChangeEvent,
+  FormEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 
 import { v4 as uuid4 } from "uuid";
 import { ToastContainer, toast } from "react-toastify";
@@ -10,32 +16,31 @@ type Expense = {
   expenseAmount: number;
   expenseDate: string;
 };
-type getExpenseType = {
+type getExpenseProp = {
   onGetExpense: (expense: number) => void;
 };
 
-export const Expense = (props: getExpenseType) => {
+export const Expense = (props: getExpenseProp) => {
   const {
     register,
     formState: { errors },
     handleSubmit,
+    reset,
   } = useForm<Expense>();
   const notify = () => toast("income added successfully!");
 
   const [expenses, setExpenses] = useState<Expense[]>([]);
 
-  const handleDelete = (id: string | undefined) => {
-    const deleteExpense = expenses.filter((expense) => expense.id !== id);
-    setExpenses(deleteExpense);
-  };
-
   useEffect(() => {
-    const totalExpenses = expenses.reduce(
+    props.onGetExpense(calculateTotalExpense());
+  }, [expenses, props]);
+
+  const calculateTotalExpense = useCallback(() => {
+    return expenses.reduce(
       (total, expense) => total + expense.expenseAmount,
       0
     );
-    props.onGetExpense(totalExpenses);
-  }, [expenses, props]);
+  }, [expenses]);
 
   const submitData: SubmitHandler<Expense> = (data) => {
     const updateExpense: Expense = { ...data, id: uuid4() };
@@ -47,7 +52,16 @@ export const Expense = (props: getExpenseType) => {
     );
     props.onGetExpense(totalExpenses);
     notify();
+    reset();
   };
+
+  const handleDelete = useCallback(
+    (id: string | undefined) => {
+      const deleteExpense = expenses.filter((expense) => expense.id !== id);
+      setExpenses(deleteExpense);
+    },
+    [expenses]
+  );
 
   return (
     <>
@@ -93,7 +107,7 @@ export const Expense = (props: getExpenseType) => {
         {expenses.length > 0 ? (
           expenses.map((expense) => {
             return (
-              <li key={expense.id}>
+              <li className="list" key={expense.id}>
                 {" "}
                 {expense.expenseSource} :{expense.expenseAmount}EUR on{" "}
                 {expense.expenseDate}
