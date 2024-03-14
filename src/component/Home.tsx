@@ -8,7 +8,7 @@ export const Home = () => {
       </h1>
       <img
         className="home-image"
-        src="./src/Image/coworking-e-wallet-with-virtual-credit-cards.gif"
+        src="./public/Image/coworking-e-wallet-with-virtual-credit-cards.gif"
       ></img>
     </div>
   );
