@@ -11,11 +11,11 @@ type Income = {
   incomeDate: string;
 };
 
-type OnGetIncomeType = {
+type OnGetIncomeProp = {
   onGetIncome: (income: number) => void;
 };
 
-export function Income(props: OnGetIncomeType) {
+export function Income(props: OnGetIncomeProp) {
   const [incomes, setIncomes] = useState<Income[]>([]);
   const {
     register,
