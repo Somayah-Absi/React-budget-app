@@ -75,7 +75,7 @@ button:hover {
 .list {
   display: flex;
   
-  background-color: #cee1df;
+  background-color: #BED1CF;
   margin-top: 6vh;
   border: solid white;
   border-radius: 2vh;
@@ -103,9 +103,9 @@ nav {
   margin: 0 5vh;
 }
 .nav-bar:hover {
-  border-color: #b7c5f0;
-  color: #8769f3;
-  box-shadow: 4px 4px 4px 0px #b6bff7;
+  border-color: #E78895;
+  color: #E78895;
+  box-shadow: 4px 4px 4px 0px #ffffff;
   background-color: #fafeff;
 }
 .delete-button {
